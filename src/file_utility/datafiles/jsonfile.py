@@ -8,7 +8,7 @@ from copy import deepcopy
 
 class JsonFile(FileBase):
     def __init__(self, fp: str):
-        self._fp = fp
+        self._filepath = fp
         self._data: dict = {}
         self._backup: dict  # exists only in a with-statement | maybe replace with stack for multiple with-statements
         self.reload()
