@@ -17,3 +17,5 @@ print(b['key'])  # 'new'
 
 print(a is b)  # True
 """
+from ._filebase import FileBase
+from .jsonfile import JsonFile
