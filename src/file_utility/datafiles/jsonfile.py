@@ -28,6 +28,10 @@ class JsonFile(FileBase):
     ####################################################################################################################
     
     @property
+    def filepath(self) -> str:
+        return self._filepath
+    
+    @property
     def data(self) -> dict:
         return deepcopy(self._data)
     
@@ -58,7 +62,9 @@ class JsonFile(FileBase):
     ####################################################################################################################
     
     def reload(self):
-        pass
+        with open(self._filepath) as jsonfile:
+            self._data = json.load(jsonfile, **self._config)
     
     def save(self):
-        pass
+        with open(self._filepath) as jsonfile:
+            json.dump(self._data, jsonfile, **self._config)
