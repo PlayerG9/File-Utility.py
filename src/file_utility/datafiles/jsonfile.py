@@ -4,13 +4,15 @@ r"""
 """
 from ._filebase import FileBase, MISSING
 from copy import deepcopy
+import json
 
 
 class JsonFile(FileBase):
-    def __init__(self, fp: str):
+    def __init__(self, fp: str, **kwargs):
         self._filepath = fp
         self._data: dict = {}
         self._backup: dict  # exists only in a with-statement | maybe replace with stack for multiple with-statements
+        self._config = kwargs  # passed to json.load and json.dump
         self.reload()
     
     def __enter__(self):
@@ -40,11 +42,12 @@ class JsonFile(FileBase):
         except KeyError:
             return default
     
-    def __setitem__(self, *path, value):
-        pass
+    # def __setitem__(self, *path, value):  # should be but now possible
+    def __setitem__(self, *path):
+        path, value = path[:-1], path[-1]
     
-    def set(self, *path, value):
-        self.__setitem__(*path, value=value)
+    def set(self, *path):
+        self.__setitem__(*path)
     
     def __delitem__(self, *path):
         pass
