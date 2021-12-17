@@ -4,18 +4,22 @@ open files like .json .ini and more process-same
 
 every time you open a file it's the same object
 
-a = open_datafile('./data.json')
-b = open_datafile('./data.json')
 
-print(a['key'])  # 'value'
-print(b['key'])  # 'value'
+code example
 
-a['key'] = 'new'
+>>> a = JsonFile('./example-data/test.json')
+>>> b = JsonFile('./example-data/test.json')
+>>>
+>>> print("A = ", a['key'])  # 'value'
+>>> print("B = ", b['key'])  # 'value'
+>>>
+>>> a['key'] = 'new'
+>>>
+>>> print("A =", a['key'])  # 'new'
+>>> print("B =", b['key'])  # 'new'
+>>>
+>>> print("A is B =", a is b)  # True
 
-print(a['key'])  # 'new'
-print(b['key'])  # 'new'
-
-print(a is b)  # True
 """
 from ._filebase import FileBase
 from .jsonfile import JsonFile
