@@ -8,7 +8,8 @@ import json
 
 
 class JsonFile(FileBase):
-    def __init__(self, fp: str, load_config: dict = None, save_config: dict = None):
+    def __init__(self, fp: str, load_config: dict = None, save_config: dict = None,
+                 context_restore: bool = True, context_save: bool = True):
         r"""
         represent a json-file
         
@@ -21,17 +22,23 @@ class JsonFile(FileBase):
         self._backup: dict  # exists only in a with-statement | maybe replace with stack for multiple with-statements
         self._load_config = load_config or {}  # passed to json.load
         self._save_config = save_config or {}  # passed to json.dump
+        self._context_restore = context_restore
+        self._context_save = context_save
         self.reload()
     
     def __enter__(self):
-        self._backup = self.data  # self.data => copy | self._data => original
+        if self._context_restore:
+            self._backup = self.data  # self.data => copy | self._data => original
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         if any((exc_type, exc_val, exc_tb)):  # exception within with-statement
-            self._data = self._backup
-            del self._backup
-        self.save()
+            if self._context_restore:
+                self._data = self._backup
+                del self._backup
+        else:
+            if self._context_save:
+                self.save()
 
     ####################################################################################################################
     
