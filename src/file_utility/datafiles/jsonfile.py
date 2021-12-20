@@ -58,7 +58,7 @@ class JsonFile(FileBase):
         """
         pass
     
-    def get(self, *path, default=MISSING):
+    def get(self, *path, default=None):
         r"""
         query a value from the json
         
