@@ -20,6 +20,13 @@ code example
 >>>
 >>> print("A is B =", a is b)  # True
 
+planned/supported filetypes
+| ext   | Class      | python-module |
++-------+------------+---------------+
+| .json | JsonFile   | json          |
+| .ini  | IniFile    | configparser  |
+| .db   | DBFile     | dbm           |
+| .pkl  | PickleFile | pickle        |
 """
 from ._filebase import FileBase
 from .jsonfile import JsonFile
