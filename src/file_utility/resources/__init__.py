@@ -19,7 +19,7 @@ def to_filename(name):
     return name.replace('-', '_')
 
 
-@functools.cache
+@functools.lru_cache(maxsize=1)
 def scriptdir() -> str:
     r"""
     get the directory of the executed script (__main__)
@@ -30,7 +30,7 @@ def scriptdir() -> str:
     __main__ = sys.modules['__main__']
     if not hasattr(__main__, '__file__'):
         raise DynamicMainError('main-script was created dynamically or run as interactive shell')
-    return os.path.dirname(__main__.__file__)
+    return os.path.abspath(os.path.dirname(__main__.__file__))
 
 
 def resource(*path) -> str:
