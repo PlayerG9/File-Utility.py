@@ -14,3 +14,4 @@ __status__ = "Prototype"  # Prototype, Development, Production
 
 from . import datafiles
 from . import synced_datafiles
+from . import resources
