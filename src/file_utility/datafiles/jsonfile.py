@@ -39,7 +39,7 @@ class JsonFile(FileBase):
     def __enter__(self):
         if self._context_restore:
             self._backup = self.data  # self.data => copy | self._data => original
-        return self  # don't know if this is more useful than usless
+        return self  # don't know if this is more useful than useless
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         if any((exc_type, exc_val, exc_tb)):  # exception within with-statement
