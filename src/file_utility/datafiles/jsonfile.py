@@ -8,11 +8,19 @@ import json
 
 
 class JsonFile(FileBase):
-    def __init__(self, fp: str, **kwargs):
+    def __init__(self, fp: str, load_config: dict = None, save_config: dict = None):
+        r"""
+        represent a json-file
+        
+        :param fp:
+        :param load_config: passed to json.load
+        :param save_config: passed to json.dump
+        """
         self._filepath = fp
         self._data: dict = {}
         self._backup: dict  # exists only in a with-statement | maybe replace with stack for multiple with-statements
-        self._config = kwargs  # passed to json.load and json.dump
+        self._load_config = load_config or {}  # passed to json.load
+        self._save_config = save_config or {}  # passed to json.dump
         self.reload()
     
     def __enter__(self):
@@ -41,6 +49,13 @@ class JsonFile(FileBase):
         pass
     
     def get(self, *path, default=MISSING):
+        r"""
+        query a value from the json
+        
+        :param path: strings/keys
+        :param default: return-value if item is not found
+        :return:
+        """
         try:
             return self.__getitem__(*path)
         except KeyError:
@@ -51,20 +66,38 @@ class JsonFile(FileBase):
         path, value = path[:-1], path[-1]
     
     def set(self, *path):
+        r"""
+        set a value
+        
+        :param path: strings/keys
+        :return:
+        """
         self.__setitem__(*path)
     
     def __delitem__(self, *path):
         pass
     
     def delete(self, *path):
+        r"""
+        delete something from the json
+        
+        :param path: strings/keys
+        :return:
+        """
         self.__delitem__(*path)
 
     ####################################################################################################################
     
     def reload(self):
+        r"""
+        if you want to undo your changes the file can be reloaded
+        """
         with open(self._filepath) as jsonfile:
-            self._data = json.load(jsonfile, **self._config)
+            self._data = json.load(jsonfile, **self._load_config)
     
     def save(self):
+        r"""
+        if you want to save your changes to the file
+        """
         with open(self._filepath) as jsonfile:
-            json.dump(self._data, jsonfile, **self._config)
+            json.dump(self._data, jsonfile, **self._save_config)
