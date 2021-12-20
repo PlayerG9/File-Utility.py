@@ -30,3 +30,5 @@ planned/supported filetypes
 """
 from ._filebase import FileBase
 from .jsonfile import JsonFile
+from .inifile import IniFile
+from .dbfile import DBFile
