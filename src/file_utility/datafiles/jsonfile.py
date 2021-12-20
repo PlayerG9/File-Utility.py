@@ -54,10 +54,6 @@ class JsonFile(FileBase):
     ####################################################################################################################
     
     @property
-    def filepath(self) -> str:
-        return self._filepath
-    
-    @property
     def data(self) -> dict:
         # returns a copy if the data
         return deepcopy(self._data)

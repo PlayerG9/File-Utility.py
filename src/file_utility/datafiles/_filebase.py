@@ -60,7 +60,11 @@ class FileBase(object):
         raise NotImplementedError()
     
     # data management ##################################################################################################
-    
+
+    @property
+    def filepath(self) -> str:
+        return self._filepath
+
     def file_has_changed(self) -> bool:
         r"""
         return True if the file has changed. Otherwise False
