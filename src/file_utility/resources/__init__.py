@@ -47,5 +47,7 @@ def resource(*path) -> str:
     ├─ some_functions/
     │  ├─ __init__.py          <= from here
     ├─ main.py
+    
+    same as `os.path.join(scriptdir(), ...)`
     """
     return os.path.join(scriptdir(), *path)
