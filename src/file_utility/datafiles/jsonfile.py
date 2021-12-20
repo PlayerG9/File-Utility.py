@@ -2,7 +2,7 @@
 r"""
 
 """
-from ._filebase import FileBase, MISSING
+from ._filebase import FileBase
 import json
 
 
