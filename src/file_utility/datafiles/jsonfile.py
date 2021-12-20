@@ -16,6 +16,8 @@ class JsonFile(FileBase):
         :param fp:
         :param load_config: passed to json.load
         :param save_config: passed to json.dump
+        :param context_restore: if true the data is restored to the state before context
+        :param context_save: if true the data is automatically saved to the file after context
         """
         self._filepath = fp
         self._data: dict = {}
