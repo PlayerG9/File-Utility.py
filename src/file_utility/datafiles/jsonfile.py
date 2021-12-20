@@ -8,16 +8,25 @@ import json
 
 
 class JsonFile(FileBase):
+    r"""
+    represents a json-file
+    you get the same object for each same fp parameter
+    
+    a = JsonFile('file.json')
+    b = JsonFile('file.json')
+    print(a is b)  # => True
+    """
+    
     def __init__(self, fp: str, load_config: dict = None, save_config: dict = None,
                  context_restore: bool = True, context_save: bool = True):
         r"""
         represent a json-file
         
-        :param fp:
+        :param fp: path to the json file
         :param load_config: passed to json.load
         :param save_config: passed to json.dump
-        :param context_restore: if true the data is restored to the state before context
-        :param context_save: if true the data is automatically saved to the file after context
+        :param context_restore: if true the data is restored to the state before context if an exception occures
+        :param context_save: if true the data is automatically saved to the file after context (only without exception)
         """
         self._filepath = fp
         self._data: dict = {}
@@ -31,7 +40,7 @@ class JsonFile(FileBase):
     def __enter__(self):
         if self._context_restore:
             self._backup = self.data  # self.data => copy | self._data => original
-        return self
+        return self  # don't know if this is more useful than usless
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         if any((exc_type, exc_val, exc_tb)):  # exception within with-statement
@@ -50,11 +59,15 @@ class JsonFile(FileBase):
     
     @property
     def data(self) -> dict:
+        # returns a copy if the data
         return deepcopy(self._data)
     
     ####################################################################################################################
 
     def __getitem__(self, *path):
+        r"""
+        maybe this should return a copy of the requested data in case the returned data gets modified (list, dict)
+        """
         pass
     
     def get(self, *path, default=MISSING):
@@ -72,6 +85,9 @@ class JsonFile(FileBase):
     
     # def __setitem__(self, *path, value):  # should be but now possible
     def __setitem__(self, *path):
+        r"""
+        maybe this should set a copy of the value in case the passed object gets modified (list, dict)
+        """
         path, value = path[:-1], path[-1]
     
     def set(self, *path):
