@@ -35,12 +35,14 @@ how to manage resources like config-files or images
 ```python
 import some_functions
 ```
+
 `project/some_functions/__init__.py`
 ```python
 from file_utility.resources import resource
 
 print(resource('files', 'config.json'))  # 'project/files/config.json
 ```
+
 `output/console`
 ```commandline
 $ python3 main.py
@@ -55,6 +57,7 @@ how to manage configurations over your script
 ```python
 import some_functions
 ```
+
 `project/some_functions/__init__.py`
 ```python
 from file_utility.datafiles import JsonFile
@@ -75,6 +78,7 @@ print("B =", b['key'])  # 'new'
 
 print("A is B =", a is b)  # True
 ```
+
 `output/console`
 ```commandline
 $ python3 main.py

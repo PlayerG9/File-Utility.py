@@ -9,14 +9,13 @@ import logging
 MISSING = object()
 INIT_PLACEHOLDER = lambda *a, **kw: None  # noqa
 
-
 INSTANCEREGISTRY = weakref.WeakValueDictionary()
 
 
 class FileBase(object):
     __stamp = None  # check-value if the real file has changed
     _filepath: str
-
+    
     # creation #########################################################################################################
     
     def __init_subclass__(cls, **kwargs):
@@ -48,9 +47,9 @@ class FileBase(object):
             obj.file_has_changed()  # update information / init-call
             INSTANCEREGISTRY[fp] = obj
             return obj
-
+    
     # code management ##################################################################################################
-
+    
     def __repr__(self):
         return '<{}.{} - {}>'.format(self.__class__.__module__, self.__class__.__qualname__, id(self))
     
@@ -59,9 +58,9 @@ class FileBase(object):
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         raise NotImplementedError()
-
+    
     # data management ##################################################################################################
-
+    
     def file_has_changed(self) -> bool:
         r"""
         return True if the file has changed. Otherwise False

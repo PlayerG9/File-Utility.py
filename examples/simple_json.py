@@ -4,7 +4,6 @@ r"""
 """
 from file_utility.datafiles import JsonFile
 
-
 a = JsonFile('./example-data/test.json')
 b = JsonFile('./example-data/test.json')
 

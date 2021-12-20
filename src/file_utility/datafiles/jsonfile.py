@@ -50,7 +50,7 @@ class JsonFile(FileBase):
         else:
             if self._context_save:
                 self.save()
-
+    
     ####################################################################################################################
     
     @property
@@ -63,7 +63,7 @@ class JsonFile(FileBase):
         return deepcopy(self._data)
     
     ####################################################################################################################
-
+    
     def __getitem__(self, *path):
         r"""
         maybe this should return a copy of the requested data in case the returned data gets modified (list, dict)
@@ -110,7 +110,7 @@ class JsonFile(FileBase):
         :return:
         """
         self.__delitem__(*path)
-
+    
     ####################################################################################################################
     
     def reload(self):
