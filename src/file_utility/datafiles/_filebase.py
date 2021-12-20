@@ -19,7 +19,7 @@ class FileBase(object):
     # creation #########################################################################################################
     
     def __init_subclass__(cls, **kwargs):
-        logging.info('new class is registered: {]'.format(cls))
+        logging.info('new class is registered: {}'.format(cls))
         # __init__ is moved because this class can return the same object on instantiation
         # this way __init__ is only explicit called
         cls.__real_init__ = cls.__init__  # noqa
