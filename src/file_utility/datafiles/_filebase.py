@@ -37,6 +37,7 @@ class FileBase(object):
                     fp = args[0]
                 else:
                     raise KeyError('missing filepath argument')
+        fp = os.path.abspath(fp)
         logging.debug('create/load instance for <{}>'.format(fp))
         
         try:
