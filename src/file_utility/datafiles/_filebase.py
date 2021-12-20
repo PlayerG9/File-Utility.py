@@ -4,6 +4,7 @@ r"""
 """
 import weakref
 import os
+import logging
 
 MISSING = object()
 INIT_PLACEHOLDER = lambda *a, **kw: None  # noqa
@@ -19,6 +20,7 @@ class FileBase(object):
     # creation #########################################################################################################
     
     def __init_subclass__(cls, **kwargs):
+        logging.info('new class is registered: {]'.format(cls))
         # __init__ is moved because this class can return the same object on instantiation
         # this way __init__ is only explicit called
         cls.__real_init__ = cls.__init__  # noqa
@@ -35,6 +37,7 @@ class FileBase(object):
                     fp = args[0]
                 else:
                     raise KeyError('missing filepath argument')
+        logging.debug('create/load instance for <{}>'.format(fp))
         
         try:
             return INSTANCEREGISTRY[fp]  # try to load
