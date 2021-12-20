@@ -5,6 +5,7 @@ r"""
 import weakref
 import os
 import logging
+from copy import deepcopy
 
 MISSING = object()
 INIT_PLACEHOLDER = lambda *a, **kw: None  # noqa
@@ -58,12 +59,19 @@ class FileBase(object):
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         raise NotImplementedError()
-    
-    # data management ##################################################################################################
+
+    ####################################################################################################################
+
+    @property
+    def data(self) -> dict:
+        # returns a copy if the data
+        return deepcopy(self._data)
 
     @property
     def filepath(self) -> str:
         return self._filepath
+    
+    # data management ##################################################################################################
 
     def file_has_changed(self) -> bool:
         r"""

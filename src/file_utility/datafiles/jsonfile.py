@@ -3,7 +3,6 @@ r"""
 
 """
 from ._filebase import FileBase, MISSING
-from copy import deepcopy
 import json
 
 
@@ -50,13 +49,6 @@ class JsonFile(FileBase):
         else:
             if self._context_save:
                 self.save()
-    
-    ####################################################################################################################
-    
-    @property
-    def data(self) -> dict:
-        # returns a copy if the data
-        return deepcopy(self._data)
     
     ####################################################################################################################
     
