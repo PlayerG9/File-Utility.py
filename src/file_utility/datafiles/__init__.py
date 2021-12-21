@@ -21,12 +21,12 @@ code example
 >>> print("A is B =", a is b)  # True
 
 planned/supported filetypes
-| ext   | Class      | python-module |
-+-------+------------+---------------+
-| .json | JsonFile   | json          |
-| .ini  | IniFile    | configparser  |
-| .db   | DBFile     | dbm           |
-| .pkl  | PickleFile | pickle        |
+| ext     | Class       | python-module |
++---------+-------------+---------------+
+| .json   | JsonFile    | json          |
+| .ini    | IniFile     | configparser  |
+| .db     | DBFile      | dbm           |
+| .pyobj  | PyObjFile | pickle        |
 """
 from ._filebase import FileBase
 from .jsonfile import JsonFile
