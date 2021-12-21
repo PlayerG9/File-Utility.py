@@ -64,13 +64,17 @@ class PyObjFile(FileBase):
             file.write(bytes_size)  # write size
             file.write(object_bytes)  # write object/bytes
     
-    def delete(self, index: int = None):
+    def delete(self, *indezies: int):
+        if not indezies:
+            self.truncate()
+            return
+        
         with self._get_file() as file:
             pass
     
-    def delete_many(self, indezies: list):
-        with self._get_file() as file:
-            pass
+    def truncate(self):
+        with open(self.filepath, 'wb') as file:
+            file.write(MAGIC_NUMBER)
 
     ####################################################################################################################
     
