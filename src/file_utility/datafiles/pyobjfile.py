@@ -2,6 +2,15 @@
 r"""
 
 """
+r"""
+r | open for reading (default)
+w | open for writing, truncating the file first
+x | open for exclusive creation, failing if the file already exists
+a | open for writing, appending to the end of file if it exists
+b | binary mode
+t | text mode (default)
++ | open for updating (reading and writing)
+"""
 from ._filebase import FileBase
 import os
 import io
@@ -14,8 +23,7 @@ MAGIC_NUMBER = b'PyObj'
 class PyObjFile(FileBase):
     def __init__(self, fp: str):
         self._filepath = fp
-        if not self._number_check():
-            raise OSError("invalid file-content")
+        self._get_file().close()  # try to load file | check if content is valid
     
     def __enter__(self):
         pass
@@ -35,7 +43,7 @@ class PyObjFile(FileBase):
     ####################################################################################################################
 
     def get(self, index: int):
-        with open(self.filepath, 'rb') as file:
+        with self._get_file() as file:
             file: io.BufferedIOBase
             self._jump_to(file, index)  # go to index
             bytes_size = self._read_bsize(file)
@@ -43,7 +51,7 @@ class PyObjFile(FileBase):
             return pickle.loads(object_bytes)  # convert back / load object
 
     def add(self, value) -> int:
-        with open(self.filepath, 'rb') as file:
+        with self._get_file() as file:
             pass
     
     def delete(self, index: int = None):
@@ -56,18 +64,19 @@ class PyObjFile(FileBase):
     ####################################################################################################################
     
     def size(self) -> int:
-        pass
+        with self._get_file() as file:
+            pass
     
     ####################################################################################################################
     
-    def _number_check(self):
-        with open(self.filepath, 'rb') as file:
-            return file.read(len(MAGIC_NUMBER)) == MAGIC_NUMBER
+    def _get_file(self):
+        file = open(self.filepath, 'r+b')  # read | binary | updating (reading and writing)
+        if file.read(len(MAGIC_NUMBER)) != MAGIC_NUMBER:
+            raise OSError('invalid file-content')
+        return file
     
     @staticmethod
     def _jump_to(file: io.BufferedIOBase, index: int):
-        if file.read(len(MAGIC_NUMBER)) != MAGIC_NUMBER:
-            raise OSError('invalid file-content')
         pass
     
     @staticmethod
