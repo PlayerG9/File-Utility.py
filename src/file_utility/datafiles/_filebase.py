@@ -7,6 +7,8 @@ import os
 import logging
 from copy import deepcopy
 
+from typing import Any
+
 MISSING = object()
 INIT_PLACEHOLDER = lambda *a, **kw: None  # noqa
 
@@ -16,7 +18,7 @@ INSTANCEREGISTRY = weakref.WeakValueDictionary()
 class FileBase(object):
     __stamp = None  # check-value if the real file has changed
     _filepath: str
-    _data: None
+    _data: Any
     
     # creation #########################################################################################################
     
