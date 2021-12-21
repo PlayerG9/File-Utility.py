@@ -33,6 +33,11 @@ class PyObjFile(FileBase):
 
     ####################################################################################################################
     
+    def __iter__(self):
+        return iter_pyobjfile(self)
+
+    ####################################################################################################################
+    
     @staticmethod
     def create_empty_file(filepath: str):
         if os.path.isfile(filepath):
@@ -103,3 +108,15 @@ class PyObjFile(FileBase):
         if not size_bytes:
             raise EOFError()
         return int.from_bytes(size_bytes, 'little', signed=True)  # convert bytes to integer
+
+########################################################################################################################
+
+
+def iter_pyobjfile(pyobjfile: PyObjFile):
+    with pyobjfile._get_file() as file:
+        try:
+            object_size = pyobjfile._read_bsize(file)
+        except EOFError:
+            raise StopIteration()
+        object_bytes = file.read(object_size)
+        yield pickle.loads(object_bytes)
