@@ -16,6 +16,7 @@ INSTANCEREGISTRY = weakref.WeakValueDictionary()
 class FileBase(object):
     __stamp = None  # check-value if the real file has changed
     _filepath: str
+    _data: None
     
     # creation #########################################################################################################
     
@@ -64,6 +65,9 @@ class FileBase(object):
 
     @property
     def data(self) -> dict:
+        if not hasattr(self, '_data'):
+            raise ReferenceError(f"{self.__class__.__qualname__} doesn't support the data property")
+    
         # returns a copy if the data
         return deepcopy(self._data)
 
