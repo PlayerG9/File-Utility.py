@@ -39,7 +39,7 @@ class PyObjFile(FileBase):
             file: io.BufferedIOBase
             self._jump_to(file, index)  # go to index
             size_bytes = file.read(2)  # read 2 bytes (constant size)
-            bytes_size = int.from_bytes(size_bytes, 'little', signed=True)  # convert bytes to interger
+            bytes_size = int.from_bytes(size_bytes, 'little', signed=True)  # convert bytes to integer
             object_bytes = file.read(bytes_size)  # read the size
             return pickle.loads(object_bytes)  # convert back / load object
 
@@ -48,7 +48,7 @@ class PyObjFile(FileBase):
             pass
     
     def delete(self, index: int = None):
-        with open(self.filepath, 'wb'):
+        with open(self.filepath, 'ab'):  # does this clear the file
             pass
     
     def delete_many(self, indezies: list):
