@@ -38,8 +38,7 @@ class PyObjFile(FileBase):
         with open(self.filepath, 'rb') as file:
             file: io.BufferedIOBase
             self._jump_to(file, index)  # go to index
-            size_bytes = file.read(2)  # read 2 bytes (constant size)
-            bytes_size = int.from_bytes(size_bytes, 'little', signed=True)  # convert bytes to integer
+            bytes_size = self._read_bsize(file)
             object_bytes = file.read(bytes_size)  # read the size
             return pickle.loads(object_bytes)  # convert back / load object
 
@@ -70,3 +69,8 @@ class PyObjFile(FileBase):
         if file.read(len(MAGIC_NUMBER)) != MAGIC_NUMBER:
             raise OSError('invalid file-content')
         pass
+    
+    @staticmethod
+    def _read_bsize(file) -> int:
+        size_bytes = file.read(2)  # read 2 bytes (constant size)
+        return int.from_bytes(size_bytes, 'little', signed=True)  # convert bytes to integer
