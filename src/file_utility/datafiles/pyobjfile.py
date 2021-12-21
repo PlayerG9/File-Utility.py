@@ -70,8 +70,17 @@ class PyObjFile(FileBase):
     ####################################################################################################################
     
     def size(self) -> int:
+        size = 0
         with self._get_file() as file:
-            pass
+            while True:
+                try:
+                    object_size = self._read_bsize(file)
+                except EOFError:
+                    break
+                next_index = file.tell() + object_size
+                file.seek(next_index)
+                size += 1
+        return size
     
     ####################################################################################################################
     
@@ -91,4 +100,6 @@ class PyObjFile(FileBase):
     @staticmethod
     def _read_bsize(file) -> int:
         size_bytes = file.read(2)  # read 2 bytes (constant size)
+        if not size_bytes:
+            raise EOFError()
         return int.from_bytes(size_bytes, 'little', signed=True)  # convert bytes to integer
