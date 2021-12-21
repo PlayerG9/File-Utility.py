@@ -26,10 +26,10 @@ class PyObjFile(FileBase):
         self._get_file().close()  # try to load file | check if content is valid
     
     def __enter__(self):
-        pass
+        raise NotImplementedError()
     
     def __exit__(self, exc_type, exc_val, exc_tb):
-        pass
+        raise NotImplementedError()
 
     ####################################################################################################################
     
