@@ -32,3 +32,4 @@ from ._filebase import FileBase
 from .jsonfile import JsonFile
 from .inifile import IniFile
 from .dbfile import DBFile
+from .pyobjfile import PyObjFile
