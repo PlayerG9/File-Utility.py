@@ -41,12 +41,13 @@ class PyObjFile(FileBase):
 
     ####################################################################################################################
     
-    @staticmethod
-    def create_empty_file(filepath: str):
+    @classmethod
+    def create_new(cls, filepath: str) -> 'PyObjFile':
         if os.path.isfile(filepath):
             raise FileExistsError("can't create file because it already exist")
         with open(filepath, 'wb') as file:
             file.write(MAGIC_NUMBER)
+        return cls(filepath)
 
     ####################################################################################################################
 
