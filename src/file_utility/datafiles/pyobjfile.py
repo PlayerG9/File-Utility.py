@@ -59,14 +59,15 @@ class PyObjFile(FileBase):
             object_bytes = file.read(object_size)  # read the size
             return pickle.loads(object_bytes)  # convert back / load object
 
-    def add(self, obj: object):
+    def add(self, *objects: object):
         with self._get_file() as file:
             file.seek(0, os.SEEK_END)  # go to the end
-            object_bytes = pickle.dumps(obj)  # dump object
-            object_size = len(object_bytes)  # get size of object
-            bytes_size = object_size.to_bytes(2, 'big', signed=False)  # convert size to bytes
-            file.write(bytes_size)  # write size
-            file.write(object_bytes)  # write object/bytes
+            for obj in objects:
+                object_bytes = pickle.dumps(obj)  # dump object
+                object_size = len(object_bytes)  # get size of object
+                bytes_size = object_size.to_bytes(2, 'big', signed=False)  # convert size to bytes
+                file.write(bytes_size)  # write size
+                file.write(object_bytes)  # write object/bytes
     
     def delete(self, *indezies: int):
         r"""
