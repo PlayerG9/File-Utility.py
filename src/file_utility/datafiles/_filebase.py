@@ -55,7 +55,7 @@ class FileBase(object):
     # code management ##################################################################################################
     
     def __repr__(self):
-        return '<{}.{} - {}>'.format(self.__class__.__module__, self.__class__.__qualname__, id(self))
+        return '<{}.{} - {}>'.format(self.__class__.__module__, self.__class__.__qualname__, self.filepath)
     
     def __enter__(self):
         raise NotImplementedError()
