@@ -22,6 +22,8 @@ CHUNK_SIZE = 1024
 
 
 class PyObjFile(FileBase):
+    FILE_EXTENSION = '.pyobj'
+    
     def __init__(self, fp: str):
         self._filepath = fp
         self._get_file().close()  # try to load file | check if content is valid

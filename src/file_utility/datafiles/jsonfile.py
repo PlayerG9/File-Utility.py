@@ -15,6 +15,7 @@ class JsonFile(FileBase):
     b = JsonFile('file.json')
     print(a is b)  # => True
     """
+    FILE_EXTENSION = '.json'
     
     def __init__(self, fp: str, load_config: dict = None, save_config: dict = None,
                  context_restore: bool = True, context_save: bool = True):

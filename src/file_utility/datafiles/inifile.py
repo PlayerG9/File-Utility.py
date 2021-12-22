@@ -7,6 +7,8 @@ import configparser
 
 
 class IniFile(FileBase):
+    FILE_EXTENSION = '.ini'
+    
     def __init__(self, fp: str, context_restore: bool = True, context_save: bool = True):
         self._filepath = fp
         self._context_restore = context_restore

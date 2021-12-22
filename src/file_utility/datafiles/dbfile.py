@@ -13,6 +13,8 @@ _T = Union[str, bytes]
 
 
 class DBFile(FileBase):
+    FILE_EXTENSION = '.dbm'
+    
     READY_ONLY = 'r'            # only read from file
     WRITE_AND_READ = 'w'        # read and write
     CREATE_IF_NOT_EXISTS = 'c'  # read and write (and create if not exists
