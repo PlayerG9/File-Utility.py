@@ -64,7 +64,7 @@ class PyObjFile(FileBase):
             file.seek(0, os.SEEK_END)  # go to the end
             object_bytes = pickle.dumps(obj)  # dump object
             object_size = len(object_bytes)  # get size of object
-            bytes_size = object_size.to_bytes(2, 'little', signed=False)  # convert size to bytes
+            bytes_size = object_size.to_bytes(2, 'big', signed=False)  # convert size to bytes
             file.write(bytes_size)  # write size
             file.write(object_bytes)  # write object/bytes
     
@@ -82,7 +82,7 @@ class PyObjFile(FileBase):
         
         with self._get_file() as old_file, open(tmpfile, 'wb') as new_file:  # open old and new files
             size_bytes = old_file.read(2)  # read size-bytes
-            bytes_size = int.from_bytes(size_bytes, 'little', signed=False)  # parse object-size
+            bytes_size = int.from_bytes(size_bytes, 'big', signed=False)  # parse object-size
             
             if index in indezies:  # should be deleted <=> ignored
                 old_file.seek(old_file.tell() + bytes_size)  # skip
@@ -136,7 +136,7 @@ class PyObjFile(FileBase):
         size_bytes = file.read(2)  # read 2 bytes (constant size)
         if not size_bytes:
             raise EOFError()
-        return int.from_bytes(size_bytes, 'little', signed=False)  # convert bytes to integer
+        return int.from_bytes(size_bytes, 'big', signed=False)  # convert bytes to integer
 
 ########################################################################################################################
 
