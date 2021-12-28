@@ -109,6 +109,7 @@ class JsonFile(FileBase):
         """
         with open(self._filepath) as jsonfile:
             self._data = json.load(jsonfile, **self._load_config)
+        self.file_has_changed()  # update for change-check
     
     def save(self):
         r"""
@@ -116,3 +117,4 @@ class JsonFile(FileBase):
         """
         with open(self._filepath) as jsonfile:
             json.dump(self._data, jsonfile, **self._save_config)
+        self.file_has_changed()  # update for change-check
