@@ -17,6 +17,12 @@ class JsonFile(FileBase):
     """
     FILE_EXTENSION = '.json'
     
+    # Save-Config-Prefabs
+    SC_HUMAN_READABLE = dict(indent=2)
+
+    # Load-Config-Prefabs
+    # None
+    
     def __init__(self, fp: str, load_config: dict = None, save_config: dict = None,
                  context_restore: bool = True, context_save: bool = True):
         r"""
