@@ -10,6 +10,10 @@ class DynamicMainError(Exception):
     pass
 
 
+def cached():
+    return functools.lru_cache(maxsize=1)
+
+
 def to_filename(name):
     """
     Convert a project or version name to its filename-escaped form
@@ -19,7 +23,7 @@ def to_filename(name):
     return name.replace('-', '_')
 
 
-@functools.lru_cache(maxsize=1)
+@cached()
 def scriptdir() -> str:
     r"""
     get the directory of the executed script (__main__)
