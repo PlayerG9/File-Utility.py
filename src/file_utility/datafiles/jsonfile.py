@@ -53,7 +53,7 @@ class JsonFile(FileBase):
     
     ####################################################################################################################
     
-    def __getitem__(self, *path):
+    def __getitem__(self, path: tuple):
         r"""
         maybe this should return a copy of the requested data in case the returned data gets modified (list, dict)
         """
@@ -73,22 +73,23 @@ class JsonFile(FileBase):
             return default
     
     # def __setitem__(self, *path, value):  # should be but now possible
-    def __setitem__(self, *path):
+    def __setitem__(self, path: tuple, value):
         r"""
         maybe this should set a copy of the value in case the passed object gets modified (list, dict)
         """
-        path, value = path[:-1], path[-1]
+        # path, value = path[:-1], path[-1]
     
-    def set(self, *path):
+    def set(self, *path, value):
         r"""
         set a value
         
         :param path: strings/keys
+        :param value:
         :return:
         """
-        self.__setitem__(*path)
+        self.__setitem__(path, value)
     
-    def __delitem__(self, *path):
+    def __delitem__(self, path: tuple):
         pass
     
     def delete(self, *path):
