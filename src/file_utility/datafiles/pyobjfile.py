@@ -83,6 +83,8 @@ class PyObjFile(FileBase):
         index = 0
         
         with self._get_file() as old_file, open(tmpfile, 'wb') as new_file:  # open old and new files
+            new_file.write(MAGIC_NUMBER)
+            
             size_bytes = old_file.read(2)  # read size-bytes
             bytes_size = int.from_bytes(size_bytes, 'big', signed=False)  # parse object-size
             
