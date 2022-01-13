@@ -50,14 +50,17 @@ class PyObjFile(FileBase):
         return cls(filepath)
 
     ####################################################################################################################
-
-    def get(self, index: int):
+    
+    def __getitem__(self, index):
         with self._get_file() as file:
             file: io.BufferedIOBase
             self._jump_to(file, index)  # go to index
             object_size = self._read_bsize(file)  # get size of object
             object_bytes = file.read(object_size)  # read the size
             return pickle.loads(object_bytes)  # convert back / load object
+
+    def get(self, index: int):
+        return self[index]
 
     def add(self, *objects: object):
         with self._get_file() as file:
