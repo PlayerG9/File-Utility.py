@@ -62,6 +62,9 @@ class PyObjFile(FileBase):
     def get(self, index: int):
         return self[index]
 
+    def __iadd__(self, other):
+        self.add(other)
+
     def add(self, *objects: object):
         with self._get_file() as file:
             file.seek(0, os.SEEK_END)  # go to the end
