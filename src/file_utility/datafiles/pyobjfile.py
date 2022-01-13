@@ -123,8 +123,11 @@ class PyObjFile(FileBase):
     def insert(self, index: int, obj: object):
         raise NotImplementedError()  # todo
     
-    def replace(self, index: int, obj):
+    def __setitem__(self, key, value):
         raise NotImplementedError()  # todo
+    
+    def replace(self, index: int, obj):
+        self[index] = obj
 
     ####################################################################################################################
     
