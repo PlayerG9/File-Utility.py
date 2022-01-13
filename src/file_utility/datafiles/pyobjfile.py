@@ -76,6 +76,9 @@ class PyObjFile(FileBase):
                 file.write(object_bytes)  # write object/bytes
     
     def __delitem__(self, index):
+        # maybe feature: option to add slice
+        # slice(None, None, None) => truncate
+        # else indezies = range(slice)
         self.delete(index)
     
     def delete(self, *indezies: int):
