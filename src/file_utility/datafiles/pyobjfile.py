@@ -72,6 +72,7 @@ class PyObjFile(FileBase):
     def delete(self, *indezies: int):
         r"""
         warning: .delete() with indezies is slow because it writes a new file
+        thus it's reommended to gather the indezies that should be deleted and pass them at once
         """
         if not indezies:
             self.truncate()
@@ -99,8 +100,17 @@ class PyObjFile(FileBase):
         os.replace(src=tmpfile, dst=self.filepath)  # replace old file and delete temp-file
     
     def truncate(self):
+        r"""
+        deletes all items from the file
+        """
         with open(self.filepath, 'wb') as file:
             file.write(MAGIC_NUMBER)
+    
+    def insert(self, index: int, obj: object):
+        pass  # todo
+    
+    def replace(self, index: int, obj):
+        pass  # todo
 
     ####################################################################################################################
     
