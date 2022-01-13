@@ -107,10 +107,10 @@ class PyObjFile(FileBase):
             file.write(MAGIC_NUMBER)
     
     def insert(self, index: int, obj: object):
-        pass  # todo
+        raise NotImplementedError()  # todo
     
     def replace(self, index: int, obj):
-        pass  # todo
+        raise NotImplementedError()  # todo
 
     ####################################################################################################################
     
