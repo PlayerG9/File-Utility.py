@@ -75,6 +75,9 @@ class PyObjFile(FileBase):
                 file.write(bytes_size)  # write size
                 file.write(object_bytes)  # write object/bytes
     
+    def __delitem__(self, index):
+        self.delete(index)
+    
     def delete(self, *indezies: int):
         r"""
         warning: .delete() with indezies is slow because it writes a new file
