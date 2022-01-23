@@ -61,3 +61,42 @@ if sys.platform == "win32":
         else:
             attribute = stat.FILE_ATTRIBUTE_NORMAL
         ctypes.windll.kernel32.SetFileAttributesW(path, attribute)
+
+
+def enumerate_drives():
+    import sys
+    from os.path import isdir, sep
+    
+    if sys.platform.startswith('win'):
+        from ctypes import windll, create_unicode_buffer
+        from string import ascii_uppercase
+        
+        bitmask = windll.kernel32.GetLogicalDrives()
+        GetVolumeInformationW = windll.kernel32.GetVolumeInformationW
+        for letter in ascii_uppercase:
+            if bitmask & 1:
+                name = create_unicode_buffer(64)
+                # get name of the drive
+                drive = letter + u':'
+                res = GetVolumeInformationW(drive + sep, name, 64, None,
+                                            None, None, None, 0)
+                if not res:  # failed to fetch
+                    continue
+                yield drive, name.value
+            bitmask >>= 1
+    
+    elif sys.platform.startswith('linux'):
+        yield sep, sep
+
+        places = (sep + u'mnt', sep + u'media')
+        for place in places:
+            if isdir(place):
+                for directory in os.listdir(place):
+                    yield place + sep + directory, directory
+    
+    # elif platform == 'macosx' or platform == 'ios':
+    #     drives.append((expanduser(u'~'), '~/'))
+    #     vol = sep + u'Volume'
+    #     if isdir(vol):
+    #         for drive in walk(vol).next()[1]:
+    #             drives.append((vol + sep + drive, drive))
