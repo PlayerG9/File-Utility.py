@@ -92,7 +92,8 @@ def enumerate_drives():
         for place in places:
             if isdir(place):
                 for directory in os.listdir(place):
-                    yield place + sep + directory, directory
+                    if os.path.ismount(place + sep + directory):
+                        yield place + sep + directory, directory
     
     # elif platform == 'macosx' or platform == 'ios':
     #     drives.append((expanduser(u'~'), '~/'))
