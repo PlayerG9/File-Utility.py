@@ -5,6 +5,8 @@ r"""
 import os
 import sys
 
+from .filestats import FileStats
+
 
 def chmod(path: str, mode: str):
     r"""
@@ -19,22 +21,31 @@ def chmod(path: str, mode: str):
     # https://wiki.ubuntuusers.de/chmod/
     raise NotImplementedError()
     
+    mode = mode.lower()
+    
     import re
     match: re.Match = re.fullmatch(r'(u?g?o?a?)([+\-=])(r?w?x?)', mode)
-    # match: re.Match = re.fullmatch(r'(?P<users>u?g?o?a?)(?P<mode>[+\-=])(?P<permissions>r?w?x?)', mode)
     if not match:
         raise ValueError('invalid mode: {!r}'.format(mode))
+
+    users_characters = match.group(1)
+    update_mode = match.group(2)
+    permissions_characters = match.group(3)
     
-    users = match.group(1)
-    mode = match.group(2)
-    permissions = match.group(3)
+    if 'a' in users_characters:
+        users_characters = 'ugo'
     
-    if 'a' in users:
-        users = None
+    import stat
     
-    mode_number = 0
+    old_filemode = stat.S_IMODE(os.stat(path).st_mode)
+    # original-...
+    newuser = old_filemode % 8
+    newgroup = (old_filemode // 8) % 8
+    newother = (old_filemode // 8 // 8) % 8
     
-    os.chmod(path, )
+    # todo
+    
+    os.chmod(path, int('0o{}{}{}'.format(newuser, newgroup, newother), base=8))
 
 
 if sys.platform == "win32":
@@ -44,8 +55,9 @@ if sys.platform == "win32":
         """
         # https://docs.microsoft.com/de-de/windows/win32/api/fileapi/nf-fileapi-setfileattributesa?redirectedfrom=MSDN
         import ctypes
+        import stat
         if hidden:
-            attribute = 0x2  # FILE_ATTRIBUTE_HIDDEN
+            attribute = stat.FILE_ATTRIBUTE_HIDDEN
         else:
-            attribute = 0x80  # FILE_ATTRIBUTE_NORMAL
+            attribute = stat.FILE_ATTRIBUTE_NORMAL
         ctypes.windll.kernel32.SetFileAttributesW(path, attribute)
